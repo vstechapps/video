@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <app-card *ngIf="firestore.user" class="w-100">
+      <div class="header">User Profile</div>
+      <div class="content">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <img class="image" [src]="firestore.user.pic" alt="Profile Pic">
+          </div>
+          <div class="col-12 col-md-6">
+            <table class="table">
+              <tbody *ngIf="!editing">
+                <tr>
+                  <th>Name</th>
+                  <td>{{firestore.user.name}}</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{{firestore.user.email}}</td>
+                </tr>
+                <tr>
+                  <th>Phone</th>
+                  <td>{{firestore.user.phone}}</td>
+                </tr>
+                <tr>
+                  <th>Role</th>
+                  <td>{{firestore.user.role}}</td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td>{{firestore.user.address}}</td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="editing">
+                <tr>
+                  <th>Name</th>
+                  <td><input matInput [(ngModel)]="firestore.user.name" disabled></td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td><input matInput [(ngModel)]="firestore.user.email" disabled></td>
+                </tr>
+                <tr>
+                  <th>Phone</th>
+                  <td><input matInput [(ngModel)]="firestore.user.phone"></td>
+                </tr>
+                <tr>
+                  <th>Role</th>
+                  <td><input matInput [(ngModel)]="firestore.user.role" disabled></td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td><textarea matInput rows="3" [(ngModel)]="firestore.user.address"></textarea></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button *ngIf="editing" mat-raised-button color="primary" (click)="update()">Save</button>
+        <button mat-stroked-button color="accent" class="ml-2"
+          (click)="editing=!editing">{{editing?"Cancel":"Edit Profile"}}</button>
+      </div>
+      <div class="row">
+        <mat-slide-toggle
+          class="example-margin"
+          color="accent"
+          [checked]="firestore.user.notifications"
+          (toggleChange)="toggleNotifications()">
+        Notifications
+      </mat-slide-toggle>
+      </div>
+
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+{
+   "name": "Angular+Firebase",
+   "short_name": "App",
+   "start_url": "./",
+   "theme_color": "#f44336",
+   "background_color": "#f44336",
+   "display": "standalone",
+   "description": "App PWA",
+   "icons": [
+       {
+           "src": "/assets/icons/vvsk-icon.png",
+           "sizes": "16x16",
+           "type": "image/png"
+       },
+       {
+            "src": "/assets/icons/vvsk-icon.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        }
+   ]
+}

@@ -1,0 +1,14 @@
+<div *ngIf="type!='select'" class="input-container">
+  <input *ngIf="type!='textarea'" [type]="type" [(ngModel)]="value" required (change)="change.emit(value)" (ngModelChange)="valueChange.emit(value)">
+  <textarea *ngIf="type=='textarea'" [(ngModel)]="value" [rows]="rows" required (change)="change.emit(value)" (ngModelChange)="valueChange.emit(value)"></textarea>
+  <span class="highlight"></span>
+  <span class="bar"></span>
+  <label>{{label}}</label>
+</div>
+
+<div *ngIf="type=='select'" class="input-container">
+  <select class="form-control" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)" required>
+    <option value="" disabled selected hidden>{{label}}</option>
+    <option value="{{option}}" *ngFor="let option of options">{{option}}</option>
+  </select>
+</div>

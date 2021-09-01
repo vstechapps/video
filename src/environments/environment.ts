@@ -5,13 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-   apiKey: "AIzaSyAwu8fVmyT0BOnu7-sEDuI3UY7_jdIptKk",
-    authDomain: "eathealthy.firebaseapp.com",
-    databaseURL: "https://eathealthy.firebaseio.com",
-    projectId: "eathealthy",
-    storageBucket: "eathealthy.appspot.com",
-    messagingSenderId: "445163625376",
-    appId: "1:445163625376:web:6f27fcfab90c01b90ae2c5"
+    apiKey: "AIzaSyDzVKW1LvY0odK7JKHL9UitoZ7uW1UMmeM",
+    authDomain: "vvsk-video.firebaseapp.com",
+    projectId: "vvsk-video",
+    storageBucket: "vvsk-video.appspot.com",
+    messagingSenderId: "543529260954",
+    appId: "1:543529260954:web:2d4eed4c0f1b6689140c23"
   }
 };
 

@@ -2,3 +2,6 @@ tasks:
   - init: npm install --silent
   - init: npm install -g --silent @angular/cli
     command: npm start
+
+ports:
+  - port: 4200

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-  title:string="Header Title"
+  title:string="Video App"
   menus: Menu[] = [];
   firebaseUser: any = undefined;
   user: User = undefined;
@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
     if (this.firestore.user != null) {
       this.menus.push({ name: "Dashboard", click: undefined, route: "dashboard", icon: "dashboard" });
       this.menus.push({ name: "Profile", click: undefined, route: "profile", icon: "person" });
+      this.menus.push({ name: "Camera", click: undefined, route: "camera", icon: "videocam" });
       this.menus.push({ name: "Videos", click: undefined, route: "videos", icon: "video_library" });
       this.menus.push({ name: "Logout", click: "this.logout()", route: undefined, icon: "logout" });
       this.router.navigate(['dashboard']);

@@ -30,6 +30,7 @@ import { CardComponent } from './card/card.component';
 import { ToastrModule } from 'ngx-toastr';
 import { VideosComponent } from './videos/videos.component';
 import { VideoComponent } from './video/video.component';
+import { CameraComponent } from './camera/camera.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { VideoComponent } from './video/video.component';
     InputComponent,
     CardComponent,
     VideosComponent,
-    VideoComponent
+    VideoComponent,
+    CameraComponent
   ],
   imports: [
     BrowserModule,

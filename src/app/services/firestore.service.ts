@@ -15,7 +15,7 @@ export class FirestoreService {
 
   setUser(user: User) {
     this.user = user;  
-    this.updateServiceWorker();
+    //this.updateServiceWorker();
   }
 
 

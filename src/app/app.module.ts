@@ -28,7 +28,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { InputComponent } from './input/input.component';
 import { CardComponent } from './card/card.component';
 import { ToastrModule } from 'ngx-toastr';
-import { VideosComponent } from './videos/videos.component';
 import { VideoComponent } from './video/video.component';
 import { CameraComponent } from './camera/camera.component';
 
@@ -42,7 +41,6 @@ import { CameraComponent } from './camera/camera.component';
     ProfileComponent,
     InputComponent,
     CardComponent,
-    VideosComponent,
     VideoComponent,
     CameraComponent
   ],

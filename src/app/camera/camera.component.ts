@@ -79,7 +79,7 @@ export class CameraComponent implements OnInit {
   getCameraId(label){
     let match=this.cameras.filter(cam=>cam.label==label);
     if(match==null || match.length==0)return null;
-    else return match[0];
+    else return match[0].id;
   }
   
 

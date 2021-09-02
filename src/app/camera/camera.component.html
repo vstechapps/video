@@ -1,11 +1,7 @@
 <div class="row">
     <div class="col-12 m-2">
-        <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"></app-input>
-    </div>
-    <div class="col-12 m-2">
-        <button [disabled]="playing" class="btn btn-primary play" (click)="play()" title="Play"><i class="material-icons">play_circle</i></button>
-        <button [disabled]="!playing" class="btn btn-primary pause" (click)="pause()" title="Pause"><i class="material-icons">pause</i></button>
-        <button [disabled]="!playing" class="btn btn-primary screenshot" (click)="screenshot()" title="ScreenShot"><i class="material-icons">screenshot</i></button>
+        <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"
+        (valueChange)="play()"></app-input>
     </div>
     <div *ngIf="playing" class="col-12 m-2">
         <video *ngIf="videosource" [srcObject]="videosource" autoplay></video>

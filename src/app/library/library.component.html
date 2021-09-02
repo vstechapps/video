@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 border border-light text-right">
+            <button class="btn text-primary"><i class="material-icons">library_add</i></button>
+        </div>
+        <div class="col-12  border border-light">
+            <div class="col-2 d-inline-block" *ngFor="let t of [1,2,3,4,5,6,7,8,9]">
+                <app-card>{{"file "+t}}</app-card>
+            </div>
+        </div>
+    </div>
+</div>

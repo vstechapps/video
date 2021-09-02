@@ -1,29 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
   styleUrls: ['./camera.component.less']
 })
-export class CameraComponent implements OnInit {
+export class CameraComponent implements OnInit,OnDestroy{
 
   options:string[]=[];
   cameras:{id;label;}[]=[];
-  videosource:any=undefined;
-  playing=false;
+  videostream:any=undefined;
+  streaming=false;
   camera:string;
   constraints = {
     video: {
-      width: {
-        min: 1280,
-        ideal: 1920,
-        max: 2560,
-      },
-      height: {
-        min: 720,
-        ideal: 1080,
-        max: 1440
-      },
+      width: {min: 1280,ideal: 1920,max: 2560,},
+      height: {min: 720,ideal: 1080,max: 1440}
     }
   };
 
@@ -34,13 +26,15 @@ export class CameraComponent implements OnInit {
   ngOnInit(): void {
     if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
       console.log("Media Devices are available...");
+      this.getCameraOptions();
     }
-    console.log("Requesting Permission to access video");
-    navigator.mediaDevices.getUserMedia({video: true})
-    this.getCameraSelection();
   }
 
-  getCameraSelection = async () => {
+  ngOnDestroy(): void{
+    this.stopStream();
+  }
+
+  getCameraOptions = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
     if(videoDevices==null || videoDevices.length==0)return alert("No Video devices found..");
@@ -49,12 +43,14 @@ export class CameraComponent implements OnInit {
       this.options.push(vd.label);
       this.cameras.push({id:vd.deviceId,label:vd.label});
     });
+    this.camera=this.options[0];
+    this.startCamera();
   }
 
-  play(){
-    if(this.camera==null || this.camera=="")return alert("Camera Not Selected..");
+  startCamera(){
+    if(this.camera==null || this.camera=="")return;
     let cameraId=this.getCameraId(this.camera);
-    console.log(cameraId);
+    console.log("Camera ID :",cameraId);
     if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia && cameraId!=null) {
       let updatedConstraints = {
         ...this.constraints,
@@ -67,11 +63,6 @@ export class CameraComponent implements OnInit {
 
   }
 
-  pause(){
-    this.videosource=undefined;
-    this.playing=false;
-  }
-
   screenshot(){
 
   }
@@ -82,16 +73,25 @@ export class CameraComponent implements OnInit {
     else return match[0].id;
   }
   
+  startStream = (constraints) => {
+    let a=this;
+    navigator.mediaDevices.getUserMedia(constraints).then(stream=>{
+      a.videostream = stream;
+      a.streaming = true;
+    },
+    rejected=>{alert("Camera Access Blocked...")});
+  }
 
-
-  startStream = async (constraints) => {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    this.handleStream(stream);
+  stopStream = ()=>{
+    this.streaming=false;
+    if(this.videostream!=null){
+      this.videostream.getTracks().forEach(function(track) {
+        if (track.readyState == 'live') {
+            track.stop();
+        }
+    });
+    }
   }
   
-   handleStream = (stream) => {
-    this.videosource = stream;
-    this.playing = true;
-  }
 
 }

@@ -1,17 +1,25 @@
-<div class="row">
-    <div class="col-12 m-2">
-        <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"
-        (valueChange)="play()"></app-input>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 col-sm-6 m-0">
+            <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"
+                (valueChange)="startCamera()"></app-input>
+        </div>
+        <div class="col-12 col-md-6 col-sm-6 m-0 text-center">
+            <mat-slide-toggle class="mx-2" (toggleChange)="streaming?stopStream():startCamera()" color="accent"
+                [checked]="streaming">
+                {{streaming?"On":"Off"}}
+            </mat-slide-toggle>
+            <button class="btn text-light mx-1"><i class="material-icons">flash_off</i></button>
+            <button class="btn text-light mx-1" (click)="screenshot()"><i
+                    class="material-icons">photo_camera</i></button>
+            <button class="btn text-light mx-1"><i class="material-icons">videocam</i></button>
+        </div>
+        <div *ngIf="streaming" class="col-12 m-2">
+            <video *ngIf="streaming" [srcObject]="videostream" autoplay></video>
+        </div>
+        <div class="col-12 m-2">
+            <canvas class="d-none"></canvas>
+            <img class="screenshot-image d-none" alt="">
+        </div>
     </div>
-    <div *ngIf="playing" class="col-12 m-2">
-        <video *ngIf="videosource" [srcObject]="videosource" autoplay></video>
-    </div>
-    <div class="col-12 m-2">
-        <canvas class="d-none"></canvas>
-        <img class="screenshot-image d-none" alt="">
-    </div>
-
-    
-    
-
 </div>

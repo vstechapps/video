@@ -4,12 +4,14 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CameraComponent } from './camera/camera.component';
+import { LibraryComponent } from './library/library.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'camera', component: CameraComponent }
+  { path: 'camera', component: CameraComponent },
+  { path: 'library', component: LibraryComponent }
 ];
 
 @NgModule({

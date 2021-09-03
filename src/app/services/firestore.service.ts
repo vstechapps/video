@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { User } from '../models/models';
+import { User,UserFile } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { User } from '../models/models';
 export class FirestoreService {
   user: UserData;
   userRef: AngularFirestoreCollection<User>;
+  
 
   constructor(public firestore: AngularFirestore) {
     this.userRef = this.firestore.collection<User>('users');
@@ -16,6 +17,10 @@ export class FirestoreService {
   setUser(user: User) {
     this.user = user;  
     //this.updateServiceWorker();
+  }
+
+  getUserFileCollection(){
+    return this.firestore.collection<UserFile>("user-files", ref => ref.where("user", "==", this.user.id));
   }
 
 

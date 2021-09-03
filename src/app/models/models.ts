@@ -23,9 +23,12 @@ export enum Role{
   ADMIN="ADMIN"
 }
 
-
-export class Video{
+export class UserFile{
+  id:string;
   name:string;
-  url:string;
-  length:string;
+  type:string;
+  date:string;
+  time:string;
+  size:number;
+  user:string;
 }

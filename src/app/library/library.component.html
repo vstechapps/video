@@ -1,12 +1,27 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 border border-light text-right">
-            <button class="btn text-primary"><i class="material-icons">library_add</i></button>
+    <div class="row mt-3">
+        <div class="col-12 bg-secondary">
+        <div class="col-10 col-md-9 col-sm-8 p-0 d-inline-block">
+            <app-input type="text" label="Search" [(value)]="search"></app-input>
         </div>
-        <div class="col-12  border border-light">
-            <div class="col-2 d-inline-block" *ngFor="let t of [1,2,3,4,5,6,7,8,9]">
-                <app-card>{{"file "+t}}</app-card>
-            </div>
+        <div class="col-2 col-md-3 col-sm-4 p-0 text-right d-inline-block">
+            <button class="btn text-primary" (click)="uploadbtn.click()"
+            ><i style="font-size: 30px" class="material-icons">library_add</i>
+        </button>
+            <input type="file" class="d-none" #uploadbtn (change)="upload($event)" multiple="multiple"/>
+        </div> 
+        </div>
+        <div class="col-12 p-3 border border-light mt-1">
+            <app-card class="d-inline-block m-2 file-card" *ngFor="let f of files">
+                <div>{{f.name}}</div>
+                <div>{{f.size}}</div> 
+                <div>{{f.type}}</div> 
+                <div>{{f.date}}</div>
+                <div class="text-right">
+                    <i class="material-icons m-1 text-primary" title="Download">download</i>
+                    <i class="material-icons  m-1 text-danger" title="Delete">delete</i>
+                </div>
+            </app-card>
         </div>
     </div>
 </div>

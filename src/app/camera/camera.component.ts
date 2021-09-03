@@ -12,13 +12,6 @@ export class CameraComponent implements OnInit,OnDestroy{
   videostream:any=undefined;
   streaming=false;
   camera:string;
-  constraints = {
-    video: {
-      width: {min: 1280,ideal: 1920,max: 2560,},
-      height: {min: 720,ideal: 1080,max: 1440}
-    }
-  };
-
 
   constructor() { 
   }
@@ -56,13 +49,13 @@ export class CameraComponent implements OnInit,OnDestroy{
     let cameraId=this.getCameraId(this.camera);
     console.log("Camera ID :",cameraId);
     if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia && cameraId!=null) {
-      let updatedConstraints = {
-        video: { deviceId : cameraId}
+      let constraints = {
+        video: { deviceId : cameraId, width: 1280, height: 720}
       };
       if(this.streaming){
         this.stopStream();
       }
-      this.startStream(updatedConstraints);
+      this.startStream(constraints);
     }
 
   }

@@ -40,8 +40,12 @@ export class CameraComponent implements OnInit,OnDestroy{
     if(videoDevices==null || videoDevices.length==0)return alert("No Video devices found..");
     console.log(videoDevices);
     videoDevices.forEach(vd => {
-      this.options.push(vd.label);
-      this.cameras.push({id:vd.deviceId,label:vd.label});
+      let label=vd.label;
+      if(label==""){
+        label="Cam "+(this.options.length+1);
+      }
+      this.options.push(label);
+      this.cameras.push({id:vd.deviceId,label:label});
     });
     this.camera=this.options[0];
     this.startCamera();
@@ -53,11 +57,11 @@ export class CameraComponent implements OnInit,OnDestroy{
     console.log("Camera ID :",cameraId);
     if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia && cameraId!=null) {
       let updatedConstraints = {
-        ...this.constraints,
-        deviceId: {
-          exact: cameraId
-        }
+        video: { deviceId : cameraId}
       };
+      if(this.streaming){
+        this.stopStream();
+      }
       this.startStream(updatedConstraints);
     }
 

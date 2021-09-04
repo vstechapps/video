@@ -31,6 +31,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { VideoComponent } from './video/video.component';
 import { CameraComponent } from './camera/camera.component';
 import { LibraryComponent } from './library/library.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { LibraryComponent } from './library/library.component';
     CardComponent,
     VideoComponent,
     CameraComponent,
-    LibraryComponent
+    LibraryComponent,
+    PreviewComponent
   ],
   imports: [
     BrowserModule,

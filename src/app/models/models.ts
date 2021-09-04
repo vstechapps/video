@@ -29,6 +29,10 @@ export class UserFile{
   type:string;
   date:string;
   time:string;
-  size:number;
+  bytes:number
   user:string;
+  size:string;
+  icon:string;
+  content:string;
+  url?:string;
 }

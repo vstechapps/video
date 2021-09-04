@@ -1,0 +1,15 @@
+<div class="preview-container" *ngIf="file">
+    <div class="preview-margin">
+        <div class="preview-block">
+            <div class="preview-name">{{file.name}}
+                <i class="float-right material-icons" (click)="close.emit()">close</i>
+            </div>
+            <div class="preview-content">
+                <audio *ngIf="file.content=='audio'" [src]="file.url" controls></audio>
+                <video *ngIf="file.content=='video'" [src]="file.url" controls></video>
+                <img *ngIf="file.content=='image'" [src]="file.url" />
+                <div *ngIf="file.content=='file'">No preview available</div>
+            </div>
+        </div>
+    </div>
+</div>

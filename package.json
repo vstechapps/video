@@ -24,6 +24,7 @@
     "@angular/router": "~11.2.10",
     "bootstrap": "^4.6.0",
     "firebase": "^7.0 || ^8.0",
+    "image-capture": "^0.4.0",
     "jquery": "^3.6.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Utility } from '../services/utility';
 
 @Component({
   selector: 'app-camera',
@@ -10,8 +11,12 @@ export class CameraComponent implements OnInit,OnDestroy{
   options:string[]=[];
   cameras:{id;label;}[]=[];
   videostream:any=undefined;
+  imagecapture:any=undefined;
   streaming=false;
   camera:string;
+  settings:boolean=false;
+  canvas:boolean=false;
+  isMobile:boolean=Utility.mobileAndTabletCheck();
 
   constructor() { 
   }
@@ -42,6 +47,18 @@ export class CameraComponent implements OnInit,OnDestroy{
     });
     this.camera=this.options[0];
     this.startCamera();
+  }
+
+  toggleCamera(){
+    if(this.camera==this.cameras[0].label){
+      this.camera=this.cameras[1].label;
+    }
+    else if(this.camera==this.cameras[1].label){
+      this.camera=this.cameras[0].label;      
+    }
+    else{
+      console.log("Toggling Camera Failed in mobile device");
+    }
   }
 
   startCamera(){
@@ -87,6 +104,8 @@ export class CameraComponent implements OnInit,OnDestroy{
             track.stop();
         }
     });
+    this.videostream=null;
+    this.imagecapture==null;
     }
   }
   

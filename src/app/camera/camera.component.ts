@@ -21,11 +21,16 @@ export class CameraComponent implements OnInit,OnDestroy{
   isMobile:boolean=Utility.mobileAndTabletCheck();
   captures:ImgCapture[]=[];
   showCaptures:boolean=false;
+  layoutheight:string;
 
   constructor(private sanitizer:DomSanitizer) { 
   }
 
   ngOnInit(): void {
+    this.layoutheight=(window.innerHeight-65)+"";
+    let a=this;
+    window.onresize=function(){a.layoutheight=(window.innerHeight-65)+"";}
+    console.log(this.layoutheight);
     if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
       console.log("Media Devices are available...");
       this.getCameraOptions();

@@ -1,17 +1,13 @@
 <div class="row m-0">
     <div class="col-12 p-0">
-        <div class="stream-layuot">
-            <video *ngIf="streaming && !canvas" class="video" [srcObject]="videostream" autoplay></video>
-            <canvas *ngIf="streaming && canvas" class="video"  id="canvas"></canvas>
+        <div class="stream-layout">
+            <video *ngIf="streaming && !canvas" class="video" height="{{layoutheight}}" [srcObject]="videostream" autoplay></video>
+            <canvas *ngIf="streaming && canvas" class="video" height="{{layoutheight}}" id="canvas"></canvas>
         </div>
         <div class="options-layout">
-            <mat-slide-toggle class="mx-2" (toggleChange)="streaming?stopStream():startCamera()" color="accent"
-                [checked]="streaming">
-                {{streaming?"On":"Off"}}
-            </mat-slide-toggle>
-            <button class="btn text-light mx-1"><i class="material-icons">flash_off</i></button>
+            
             <button class="btn text-light mx-1" (click)="settings=true"><i class="material-icons">settings</i></button>
-            <button *ngIf="isMobile" class="btn text-light mx-1" (click)="toggleCamera()" [disabled]="cameras.length<2">
+            <button *ngIf="isMobile" class="btn text-light mx-1" (click)="toggleCamera()" [disabled]="!isMobile">
                 <i class="material-icons">loop</i>
             </button>
             <button class="btn text-light mx-1" (click)="capturePhoto()"><i class="material-icons">photo_camera</i></button>
@@ -33,6 +29,11 @@
     <div class="settings-options">
         <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"
             (valueChange)="startCamera()"></app-input>
+            <mat-slide-toggle class="mx-2" (toggleChange)="streaming?stopStream():startCamera()" color="accent"
+                [checked]="streaming">
+                {{streaming?"On":"Off"}}
+            </mat-slide-toggle>
+            <button class="btn text-light mx-1"><i class="material-icons">flash_off</i></button>
     </div>
 </div>
 

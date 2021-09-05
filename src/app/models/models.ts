@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export type Menu={
   name:string;
   click:string;
@@ -35,4 +37,14 @@ export class UserFile{
   icon:string;
   content:string;
   url?:string;
+}
+
+export class ImgCapture{
+  name:string;
+  blob:Blob;
+  constructor(name,blob){
+    this.name=name;
+    this.blob=blob;
+  }
+  url?:SafeUrl;
 }

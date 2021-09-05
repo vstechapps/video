@@ -14,8 +14,9 @@
             <button *ngIf="isMobile" class="btn text-light mx-1" (click)="toggleCamera()" [disabled]="cameras.length<2">
                 <i class="material-icons">loop</i>
             </button>
-            <button class="btn text-light mx-1" (click)="screenshot()"><i class="material-icons">photo_camera</i></button>
+            <button class="btn text-light mx-1" (click)="capturePhoto()"><i class="material-icons">photo_camera</i></button>
             <button class="btn text-light mx-1"><i class="material-icons">videocam</i></button>
+            <button class="btn text-light mx-1" (click)="showCaptures=true"><i class="material-icons">collections</i></button>
         </div>
     </div>
     <div class="col-12 m-2">
@@ -33,5 +34,15 @@
         <app-input class="w-50" type="select" [options]="options" label="Choose Camera" [(value)]="camera"
             (valueChange)="startCamera()"></app-input>
     </div>
+</div>
 
+<div class="settings w-100 w-md-50" *ngIf="showCaptures">
+    <div class="settings-title">Captures
+        <i class="float-right material-icons" (click)="showCaptures=false;">close</i>
+    </div>
+    <div class="settings-options" *ngIf="captures.length>0">
+        <div *ngFor="let c of captures" class="m-2">
+            <img [src]="c.url" width="300px"/>
+        </div>
+    </div>
 </div>

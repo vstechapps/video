@@ -1,5 +1,5 @@
 {
-  "name": "webedu",
+  "name": "video",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -24,7 +24,6 @@
     "@angular/router": "~11.2.10",
     "bootstrap": "^4.6.0",
     "firebase": "^7.0 || ^8.0",
-    "image-capture": "^0.4.0",
     "jquery": "^3.6.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",
@@ -38,6 +37,7 @@
     "@angular/compiler-cli": "~11.2.10",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "@types/w3c-image-capture": "^1.0.5",
     "codelyzer": "^6.0.0",
     "firebase-tools": "^9.10.0",
     "fuzzy": "^0.1.3",

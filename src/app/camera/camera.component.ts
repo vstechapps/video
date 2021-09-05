@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ImgCapture } from '../models/models';
 import { Utility } from '../services/utility';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-camera',
@@ -17,8 +19,10 @@ export class CameraComponent implements OnInit,OnDestroy{
   settings:boolean=false;
   canvas:boolean=false;
   isMobile:boolean=Utility.mobileAndTabletCheck();
+  captures:ImgCapture[]=[];
+  showCaptures:boolean=false;
 
-  constructor() { 
+  constructor(private sanitizer:DomSanitizer) { 
   }
 
   ngOnInit(): void {
@@ -26,9 +30,11 @@ export class CameraComponent implements OnInit,OnDestroy{
       console.log("Media Devices are available...");
       this.getCameraOptions();
     }
+    this.captures=[];
   }
 
   ngOnDestroy(): void{
+    this.captures=[];
     this.stopStream();
   }
 
@@ -77,8 +83,27 @@ export class CameraComponent implements OnInit,OnDestroy{
 
   }
 
-  screenshot(){
+  capturePhoto(){
+    if(this.streaming && this.imagecapture!=null){
+      this.imagecapture.takePhoto().then((blob)=>{
+        let img=new ImgCapture("Capture "+this.captures.length,blob);
+        img.url=this.sanitize(window.URL.createObjectURL(blob));
+        this.captures.push(img);
+        console.log("Capture Added ",this.captures);
+      }).catch(this.handleError);
+      this.imagecapture.grabFrame().then(this.processFrame).catch(this.handleError);
+    }
+  }
 
+   
+  processFrame(imageBitmap) {
+
+  }
+  
+   
+  handleError(error) {
+    console.error(error);
+    alert("Camera Error..");
   }
 
   getCameraId(label){
@@ -91,6 +116,7 @@ export class CameraComponent implements OnInit,OnDestroy{
     let a=this;
     navigator.mediaDevices.getUserMedia(constraints).then(stream=>{
       a.videostream = stream;
+      a.imagecapture= new ImageCapture(stream.getVideoTracks()[0]);
       a.streaming = true;
     },
     rejected=>{alert("Camera Access Blocked...")});
@@ -108,6 +134,8 @@ export class CameraComponent implements OnInit,OnDestroy{
     this.imagecapture==null;
     }
   }
-  
 
+  sanitize(url:string){
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+}
 }

@@ -65,6 +65,7 @@ export class CameraComponent implements OnInit,OnDestroy{
     else{
       console.log("Toggling Camera Failed in mobile device");
     }
+    this.startCamera();
   }
 
   startCamera(){

@@ -42,8 +42,14 @@
         <i class="float-right material-icons" (click)="showCaptures=false;">close</i>
     </div>
     <div class="settings-options" *ngIf="captures.length>0">
-        <div *ngFor="let c of captures" class="m-2">
-            <img [src]="c.url" width="300px"/>
+        <div *ngFor="let c of captures;index as i" class="m-2">
+            <div class="d-inline-block">
+                <img [src]="c.url" width="250px"/>
+            </div>
+            <div class="d-inline-block capture-actions">
+                <i (click)="saveCapture(c)" class="material-icons mx-2 text-info">save</i>
+                <i (click)="removeCapture(i)" class="material-icons mx-2 text-danger">delete</i>
+            </div>
         </div>
     </div>
 </div>

@@ -56,9 +56,9 @@ export class LibraryComponent implements OnInit {
         date:new Date().toDateString(),
         time:new Date().toTimeString(),
         user:this.firestore.user.id,
-        icon:this.getFileTypeIcon(file.type),
-        size:this.bytesToSize(file.size),
-        content:this.getContentType(file.type)
+        icon:Utility.getFileTypeIcon(file.type),
+        size:Utility.bytesToSize(file.size),
+        content:Utility.getContentType(file.type)
       });
       this.storage.ref(id).put(file).then(()=>{
         this.toaster.success("Uploaded "+file.name,"SUCCESS");
@@ -67,30 +67,7 @@ export class LibraryComponent implements OnInit {
     this.loadUserFiles();
   }
 
-  getContentType(type){
-    if(type!=null)
-    if(type.indexOf('image')>=0)return "image";
-    else if(type.indexOf('video')>=0)return "video";
-    else if(type.indexOf('audio')>=0)return "audio";
-    else return "file";
-  }
-
-  getFileTypeIcon(type){
-    if(type!=null)
-    if(type.indexOf('image')>=0)return "image";
-    else if(type.indexOf('video')>=0)return "movie";
-    else if(type.indexOf('audio')>=0)return "music_note";
-    else return "description";
-  }
-
-  bytesToSize(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-  }
+  
 
 
   view=async (file:UserFile)=>{

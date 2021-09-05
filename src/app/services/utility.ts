@@ -12,6 +12,31 @@ export const Utility = {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
           });
+    },
+
+    getContentType:function(type){
+        if(type!=null)
+        if(type.indexOf('image')>=0)return "image";
+        else if(type.indexOf('video')>=0)return "video";
+        else if(type.indexOf('audio')>=0)return "audio";
+        else return "file";
+      },
+    
+      getFileTypeIcon:function(type){
+        if(type!=null)
+        if(type.indexOf('image')>=0)return "image";
+        else if(type.indexOf('video')>=0)return "movie";
+        else if(type.indexOf('audio')>=0)return "music_note";
+        else return "description";
+      },
+    
+      bytesToSize:function(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
       }
 }
  

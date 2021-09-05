@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ImgCapture } from '../models/models';
 import { Utility } from '../services/utility';
 import {DomSanitizer} from '@angular/platform-browser';
+import { FirestoreService } from '../services/firestore.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-camera',
@@ -23,7 +26,7 @@ export class CameraComponent implements OnInit,OnDestroy{
   showCaptures:boolean=false;
   layoutheight:string;
 
-  constructor(private sanitizer:DomSanitizer) { 
+  constructor(private sanitizer:DomSanitizer,public firestore:FirestoreService,private storage:AngularFireStorage,private toaster:ToastrService) { 
   }
 
   ngOnInit(): void {
@@ -143,5 +146,30 @@ export class CameraComponent implements OnInit,OnDestroy{
 
   sanitize(url:string){
     return this.sanitizer.bypassSecurityTrustUrl(url);
-}
+  }
+
+  saveCapture(c:ImgCapture){
+    let id=Utility.uuidv4();
+      this.firestore.getUserFileCollection().doc(id).set({
+        id:id,
+        name:c.name,
+        type:c.blob.type,
+        bytes:c.blob.size,
+        date:new Date().toDateString(),
+        time:new Date().toTimeString(),
+        user:this.firestore.user.id,
+        icon:Utility.getFileTypeIcon(c.blob.type),
+        size:Utility.bytesToSize(c.blob.size),
+        content:Utility.getContentType(c.blob.type)
+      });
+      this.storage.ref(id).put(c.blob).then(()=>{
+        this.toaster.success("Uploaded "+c.name,"SUCCESS");
+      });
+  }
+
+
+  removeCapture(i){
+    console.log("Removing capture "+i);
+    this.captures.splice(i,1);
+  }
 }

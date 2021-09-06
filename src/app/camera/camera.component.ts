@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit , ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { ImgCapture } from '../models/models';
 import { Utility } from '../services/utility';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './camera.component.html',
   styleUrls: ['./camera.component.less']
 })
-export class CameraComponent implements OnInit,OnDestroy{
+export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   options:string[]=[];
   cameras:{id;label;}[]=[];
@@ -20,11 +20,17 @@ export class CameraComponent implements OnInit,OnDestroy{
   streaming=false;
   camera:string;
   settings:boolean=false;
-  canvas:boolean=false;
+  showCanvas:boolean=false;
   isMobile:boolean=Utility.mobileAndTabletCheck();
   captures:ImgCapture[]=[];
   showCaptures:boolean=false;
   layoutheight:string;
+
+  @ViewChild('canvas')
+  canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('video')
+  video: ElementRef<HTMLVideoElement>;
+  public context: CanvasRenderingContext2D;
 
   constructor(private sanitizer:DomSanitizer,public firestore:FirestoreService,private storage:AngularFireStorage,private toaster:ToastrService) { 
   }
@@ -44,6 +50,10 @@ export class CameraComponent implements OnInit,OnDestroy{
   ngOnDestroy(): void{
     this.captures=[];
     this.stopStream();
+  }
+
+  ngAfterViewInit(): void {
+    this.context = this.canvas.nativeElement.getContext('2d');
   }
 
   getCameraOptions = async () => {
@@ -142,6 +152,14 @@ export class CameraComponent implements OnInit,OnDestroy{
     this.videostream=null;
     this.imagecapture==null;
     }
+  }
+
+  drawCanvas(){
+    if(this.showCanvas && this.streaming && this.context!=null  && this.video!=null){
+      console.log("Drawing Canvas....")
+      this.context.drawImage(this.video.nativeElement, 0, 0);//, 1280, 720, 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
+      setTimeout(this.drawCanvas.bind(this), 1000 / 30);
+    }  
   }
 
   sanitize(url:string){

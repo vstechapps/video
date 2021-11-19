@@ -156,8 +156,9 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   drawCanvas(){
     if(this.showCanvas && this.streaming && this.context!=null  && this.video!=null){
-      console.log("Drawing Canvas....")
-      this.context.drawImage(this.video.nativeElement, 0, 0);//, 1280, 720, 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
+      console.log("Drawing Canvas....");
+      this.context.drawImage(this.video.nativeElement, 0, 0,4000,3000,0,0,window.innerWidth,window.innerHeight-64);// 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
+      
       setTimeout(this.drawCanvas.bind(this), 1000 / 30);
     }  
   }

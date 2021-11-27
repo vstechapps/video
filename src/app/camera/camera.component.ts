@@ -65,6 +65,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
     this.context = this.canvas.nativeElement.getContext('2d');
     this.temp_canvas = document.createElement("canvas");
     this.temp_context = this.temp_canvas.getContext('2d');
+    this.temp_context.imageSmoothingEnabled=false;
+    this.context.imageSmoothingEnabled=false;
   }
 
   getCameraOptions = async () => {

@@ -38,8 +38,6 @@
                 {{streaming?"On":"Off"}}
             </mat-slide-toggle>
             <button class="btn text-light mx-1"><i class="material-icons">flash_off</i></button>
-            <input label="sx" class="mx-2" style="width:50px" type="number" [(ngModel)]="sx"/>
-            <input label="sy" class="mx-2" style="width:50px" type="number" [(ngModel)]="sy"/>
         </div>
         <div>
             <span>Canvas</span>
@@ -48,10 +46,18 @@
                 {{showCanvas?"On":"Off"}}
             </mat-slide-toggle>
             <input label="FPS" class="mx-2" style="width:50px" type="number" [(ngModel)]="fps"/>
+            <input label="sx" class="mx-2" style="width:70px" type="number" [(ngModel)]="sx"/>
+            <input label="sy" class="mx-2" style="width:70px" type="number" [(ngModel)]="sy"/>
+        </div>
+        <div *ngIf="showCanvas">
+            <span>Screening</span>
+            <mat-slide-toggle class="mx-2" (toggleChange)="processCanvas=!processCanvas;" color="accent"
+                [checked]="processCanvas">
+                {{processCanvas?"On":"Off"}}
+            </mat-slide-toggle>
             <input label="minColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="minColor.hex"/>
             <input label="maxColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="maxColor.hex"/>
         </div>
-            
     </div>
 </div>
 

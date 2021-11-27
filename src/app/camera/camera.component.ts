@@ -24,6 +24,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   isMobile:boolean=Utility.mobileAndTabletCheck();
   captures:ImgCapture[]=[];
   showCaptures:boolean=false;
+  processCanvas:boolean=false;
   layoutheight:string;
   fps:number=20;
   sx:number=300;
@@ -173,7 +174,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
       this.temp_context.drawImage(this.video.nativeElement,0,0,this.sx,this.sy);
       let frame=this.temp_context.getImageData(0,0,this.sx,this.sy);
       //Frame computing 
-      this.computeFrame(frame);
+      if(this.processCanvas)this.computeFrame(frame);
       this.context.putImageData(frame,0,0);
       setTimeout(this.drawCanvas.bind(this), 1000 / this.fps);
     }  

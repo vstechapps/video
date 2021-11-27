@@ -190,7 +190,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
       let g1=Math.min(this.minColor.rgb.g,this.maxColor.rgb.g),g2=Math.max(this.minColor.rgb.g,this.maxColor.rgb.g);
       let b1=Math.min(this.minColor.rgb.b,this.maxColor.rgb.b),b2=Math.max(this.minColor.rgb.b,this.maxColor.rgb.b);
 
-      if (r > r1 && r <= r2 && g > g1 && g < g2 && b1 > 25 && b2 < 150){
+      if (r > r1 && r <= r2 && g > g1 && g <= g2 && b > b1 && b <= b2){
         frame.data[i * 4 + 3] = 0;
       }
     }

@@ -25,6 +25,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   captures:ImgCapture[]=[];
   showCaptures:boolean=false;
   layoutheight:string;
+  sx:number=300;
+  sy:number=150;
 
   @ViewChild('canvas')
   canvas: ElementRef<HTMLCanvasElement>;
@@ -156,9 +158,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   drawCanvas(){
     if(this.showCanvas && this.streaming && this.context!=null  && this.video!=null){
-      console.log("Drawing Canvas....");
-      this.context.drawImage(this.video.nativeElement, 0, 0,4000,3000,0,0,window.innerWidth,window.innerHeight-64);// 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
-      
+      this.context.drawImage(this.video.nativeElement,0,0,this.sx,this.sy);// 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
       setTimeout(this.drawCanvas.bind(this), 1000 / 30);
     }  
   }

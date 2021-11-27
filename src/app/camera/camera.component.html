@@ -45,6 +45,14 @@
                 [checked]="showCanvas">
                 {{showCanvas?"On":"Off"}}
             </mat-slide-toggle>
+            <div class="row">
+                <div class="col-4 p-2">
+                    <app-input label="sx" type="number" [(value)]="sx"></app-input>
+                </div>
+                <div class="col-4 p-2">
+                    <app-input label="sy" type="number" [(value)]="sy"></app-input>
+                </div>
+            </div>
         </div>
             
     </div>

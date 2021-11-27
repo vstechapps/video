@@ -32,6 +32,7 @@ import { VideoComponent } from './video/video.component';
 import { CameraComponent } from './camera/camera.component';
 import { LibraryComponent } from './library/library.component';
 import { PreviewComponent } from './preview/preview.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PreviewComponent } from './preview/preview.component';
     VideoComponent,
     CameraComponent,
     LibraryComponent,
-    PreviewComponent
+    PreviewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

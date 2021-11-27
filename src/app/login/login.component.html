@@ -1,0 +1,20 @@
+<div *ngIf="!isAdmin" class="col-12 text-center mt-5">
+    <button class="g-button">
+        <img class="g-logo" src="../../assets/icons/google.png" alt="Google Logo">
+        <span class="g-text">Google</span>
+      </button>
+</div>
+<div class="col-12" *ngIf="!isAdmin" style="height:200px;" (click)="checkIfAdmin()"></div>
+<div class="col-12 text-center mt-5" *ngIf="isAdmin">
+    <div style="font-size:15px;"> Welcome Admin,</div>
+    <div>
+        <input class="mt-2" type="text" placeholder="Username" [(ngModel)]="username" />
+    </div>
+    <div>
+        <input class="mt-2" type="password" placeholder="Password" [(ngModel)]="password" />
+    </div>
+    <div>
+        <button mat-stroked-button color="accent" class="mt-2" (click)="adminLogin()">Login</button>
+    </div>
+</div>
+

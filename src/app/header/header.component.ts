@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['dashboard']);
     } else {
       this.menus = [];
-      this.menus.push({ name: "Login", click: "this.login()", route: undefined, icon: "login" });
+      this.menus.push({ name: "Login", click: undefined, route: "login", icon: "login" });
       this.router.navigate(['']);
     }
   }
@@ -83,16 +83,9 @@ export class HeaderComponent implements OnInit {
     eval(text);
   }
 
-  profile() {
-    this.router.navigate(["profile"]);
-  }
-
   logout() {
     this.auth.signOut();
   }
 
-  login() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
 
 }

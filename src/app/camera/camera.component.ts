@@ -26,6 +26,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   showCaptures:boolean=false;
   layoutheight:string;
   fps:number=20;
+  sx:number=300;
+  sy:number=150;
   minColor=new Color("#247722");
   maxColor=new Color("#247722");
 
@@ -166,8 +168,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   drawCanvas(){
     if(this.showCanvas && this.streaming && this.context!=null  && this.video!=null){
       //this.context.drawImage(this.video.nativeElement,0,0,300,150);
-      this.temp_context.drawImage(this.video.nativeElement,0,0,300,150);
-      let frame=this.temp_context.getImageData(0,0,300,150);
+      this.temp_context.drawImage(this.video.nativeElement,0,0,this.sx,this.sy);
+      let frame=this.temp_context.getImageData(0,0,this.sx,this.sy);
       //Frame computing 
       this.computeFrame(frame);
       this.context.putImageData(frame,0,0);

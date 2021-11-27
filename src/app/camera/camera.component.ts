@@ -25,14 +25,19 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   captures:ImgCapture[]=[];
   showCaptures:boolean=false;
   layoutheight:string;
-  sx:number=300;
-  sy:number=150;
+  fps:number=20;
+  minColor=new Color("#247722");
+  maxColor=new Color("#247722");
 
   @ViewChild('canvas')
   canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('video')
   video: ElementRef<HTMLVideoElement>;
   public context: CanvasRenderingContext2D;
+
+  temp_canvas: HTMLCanvasElement;
+  temp_context: CanvasRenderingContext2D;
+  
 
   constructor(private sanitizer:DomSanitizer,public firestore:FirestoreService,private storage:AngularFireStorage,private toaster:ToastrService) { 
   }
@@ -56,6 +61,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d');
+    this.temp_canvas = document.createElement("canvas");
+    this.temp_context = this.temp_canvas.getContext('2d');
   }
 
   getCameraOptions = async () => {
@@ -158,9 +165,35 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   drawCanvas(){
     if(this.showCanvas && this.streaming && this.context!=null  && this.video!=null){
-      this.context.drawImage(this.video.nativeElement,0,0,this.sx,this.sy);// 0, 0, this.video.nativeElement.width, this.video.nativeElement.height);
-      setTimeout(this.drawCanvas.bind(this), 1000 / 30);
+      //this.context.drawImage(this.video.nativeElement,0,0,300,150);
+      this.temp_context.drawImage(this.video.nativeElement,0,0,300,150);
+      let frame=this.temp_context.getImageData(0,0,300,150);
+      //Frame computing 
+      this.computeFrame(frame);
+      this.context.putImageData(frame,0,0);
+      setTimeout(this.drawCanvas.bind(this), 1000 / this.fps);
     }  
+  }
+
+  updateColor(){
+    this.minColor.update();
+    this.maxColor.update();
+    
+  }
+
+  computeFrame(frame:ImageData){
+    for (let i = 0; i < frame.data.length /4; i++) {
+      let r = frame.data[i * 4 + 0];
+      let g = frame.data[i * 4 + 1];
+      let b = frame.data[i * 4 + 2];
+      let r1=Math.min(this.minColor.rgb.r,this.maxColor.rgb.r),r2=Math.max(this.minColor.rgb.r,this.maxColor.rgb.r);
+      let g1=Math.min(this.minColor.rgb.g,this.maxColor.rgb.g),g2=Math.max(this.minColor.rgb.g,this.maxColor.rgb.g);
+      let b1=Math.min(this.minColor.rgb.b,this.maxColor.rgb.b),b2=Math.max(this.minColor.rgb.b,this.maxColor.rgb.b);
+
+      if (r > r1 && r <= r2 && g > g1 && g < g2 && b1 > 25 && b2 < 150){
+        frame.data[i * 4 + 3] = 0;
+      }
+    }
   }
 
   sanitize(url:string){
@@ -192,3 +225,31 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
     this.captures.splice(i,1);
   }
 }
+
+export class RGB{
+  r:number;
+  g:number;
+  b:number;
+}
+
+export class Color{
+  hex:string;
+  rgb:RGB;
+  constructor(color:string){
+    this.hex=color;
+    this.update();
+  }
+  update(){
+    let t=this.hexToRgb(this.hex);
+    this.rgb=t!=null?t:this.rgb;
+  }
+  hexToRgb(hex:string):RGB {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+}
+

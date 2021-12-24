@@ -64,6 +64,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d');
+    this.canvas.nativeElement.width=this.canvas.nativeElement.width*window.devicePixelRatio;
+    this.canvas.nativeElement.height=this.canvas.nativeElement.height*window.devicePixelRatio;
     this.temp_canvas = document.createElement("canvas");
     this.temp_context = this.temp_canvas.getContext('2d');
     this.temp_context.imageSmoothingEnabled=false;

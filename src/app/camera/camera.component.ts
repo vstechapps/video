@@ -176,6 +176,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
         let frame = this.temp_context.getImageData(0, 0, this.sx, this.sy);
         this.computeFrame(frame);
         this.context.putImageData(frame, 0, 0);
+        this.context.scale(window.devicePixelRatio,window.devicePixelRatio);
       }
       else {
         this.context.drawImage(this.video.nativeElement, 0, 0, 300, 150);

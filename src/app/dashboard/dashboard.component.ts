@@ -10,9 +10,8 @@ import { Role } from '../models/models';
 export class DashboardComponent implements OnInit {
   userActivity:any={};
   Role:Role;
-  devicePixelRatio:number=0;
+  
   constructor(public firestore: FirestoreService) {
-    this.devicePixelRatio=window.devicePixelRatio;
   }
 
   ngOnInit(): void {

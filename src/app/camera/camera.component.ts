@@ -31,6 +31,7 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   sy:number=150;
   minColor=new Color("#247722");
   maxColor=new Color("#247722");
+  devicePixelRatio:number=1;
 
   @ViewChild('canvas')
   canvas: ElementRef<HTMLCanvasElement>;
@@ -64,12 +65,18 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d');
-    this.canvas.nativeElement.width=this.canvas.nativeElement.width*window.devicePixelRatio;
-    this.canvas.nativeElement.height=this.canvas.nativeElement.height*window.devicePixelRatio;
     this.temp_canvas = document.createElement("canvas");
     this.temp_context = this.temp_canvas.getContext('2d');
     this.temp_context.imageSmoothingEnabled=false;
     this.context.imageSmoothingEnabled=false;
+  }
+
+  updateCanvasSize(){
+    this.devicePixelRatio=window.devicePixelRatio;
+    this.canvas.nativeElement.width=Math.floor(this.canvas.nativeElement.width*window.devicePixelRatio);
+    this.canvas.nativeElement.height=Math.floor(this.canvas.nativeElement.height*window.devicePixelRatio);
+    this.sx=Math.floor(this.sx*window.devicePixelRatio);
+    this.sy=Math.floor(this.sy*window.devicePixelRatio);
   }
 
   getCameraOptions = async () => {

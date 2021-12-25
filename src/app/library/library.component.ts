@@ -81,27 +81,5 @@ export class LibraryComponent implements OnInit {
     
   }
 
-  edit(file){
-
-  }
-
-  copy(file){
-
-  }
-
-  download = async (file)=>{
-    (await this.storage.ref(file.id).getDownloadURL()).toPromise().then((url)=>{
-      window.open(url,'_blank');
-      this.toaster.success("Downloaded "+file.name);
-    });
-  }
-
-  delete(file){
-    this.firestore.getUserFileCollection().doc(file.id).delete().then(()=>{
-      this.storage.ref(file.id).delete();
-      this.toaster.success("Deleted "+file.name);
-      this.loadUserFiles();
-    });
-  }
-
+  
 }

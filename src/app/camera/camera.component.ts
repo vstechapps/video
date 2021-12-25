@@ -41,6 +41,10 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   temp_canvas: HTMLCanvasElement;
   temp_context: CanvasRenderingContext2D;
+
+  chroma_canvas: HTMLCanvasElement;
+  chroma_context: CanvasRenderingContext2D;
+  chroma_image_data:ImageData;
   
 
   constructor(private sanitizer:DomSanitizer,public firestore:FirestoreService,private storage:AngularFireStorage,private toaster:ToastrService) { 
@@ -70,12 +74,36 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
     this.temp_context.imageSmoothingEnabled=false;
     this.context.imageSmoothingEnabled=false;
     this.updateCanvasSize();
+    this.initializeChromaBackground();
   }
+
+  initializeChromaBackground(){
+    this.chroma_canvas = document.createElement("canvas");
+    this.chroma_context = this.chroma_canvas.getContext('2d');
+    this.chroma_canvas.width=Math.floor(this.canvas.nativeElement.width*window.devicePixelRatio);
+    this.chroma_canvas.height=Math.floor(this.canvas.nativeElement.height*window.devicePixelRatio);
+    this.chroma_context.fillStyle = "grey";
+    this.chroma_context.fillRect(0, 0, this.chroma_canvas.width, this.chroma_canvas.height);
+    this.chroma_image_data=this.chroma_context.getImageData(0, 0, this.sx, this.sy);
+    if(this.firestore.user.chromaBackground!=null){  
+      let image=new Image();
+      image.crossOrigin = "Anonymous";
+      image.src=this.firestore.user.chromaBackground;
+      image.onload=()=>{
+        this.chroma_context.drawImage(image,0,0, this.sx, this.sy);
+        this.chroma_image_data=this.chroma_context.getImageData(0, 0, this.sx, this.sy);
+      }
+      document.getElementById("extra-nodes").appendChild(image);
+    }
+  }
+
 
   updateCanvasSize(){
     this.devicePixelRatio=window.devicePixelRatio;
     this.canvas.nativeElement.width=Math.floor(this.canvas.nativeElement.width*window.devicePixelRatio);
     this.canvas.nativeElement.height=Math.floor(this.canvas.nativeElement.height*window.devicePixelRatio);
+    this.temp_canvas.width=Math.floor(this.canvas.nativeElement.width*window.devicePixelRatio);
+    this.temp_canvas.height=Math.floor(this.canvas.nativeElement.height*window.devicePixelRatio);
     this.sx=Math.floor(this.sx*window.devicePixelRatio);
     this.sy=Math.floor(this.sy*window.devicePixelRatio);
   }
@@ -134,16 +162,10 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
         this.captures.push(img);
         console.log("Capture Added ",this.captures);
       }).catch(this.handleError);
-      this.imagecapture.grabFrame().then(this.processFrame).catch(this.handleError);
     }
   }
 
-   
-  processFrame(imageBitmap) {
-
-  }
-  
-   
+     
   handleError(error) {
     console.error(error);
     alert("Camera Error..");
@@ -210,7 +232,9 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
       let b1=Math.min(this.minColor.rgb.b,this.maxColor.rgb.b),b2=Math.max(this.minColor.rgb.b,this.maxColor.rgb.b);
 
       if (r > r1 && r <= r2 && g > g1 && g <= g2 && b > b1 && b <= b2){
-        frame.data[i * 4 + 3] = 0;
+        frame.data[i * 4 + 0] = this.chroma_image_data.data[i * 4 + 0];
+        frame.data[i * 4 + 1] = this.chroma_image_data.data[i * 4 + 0];
+        frame.data[i * 4 + 2] = this.chroma_image_data.data[i * 4 + 0];
       }
     }
   }

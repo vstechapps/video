@@ -1,8 +1,20 @@
 <div class="preview-container" *ngIf="file">
     <div class="preview-margin">
         <div class="preview-block">
-            <div class="preview-name">{{file.name}}
-                <i class="float-right material-icons" (click)="close.emit()">close</i>
+            <div class="preview-header">
+                <div class="row">
+                    <div class="col-2">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-8 p-2">
+                        <span class="preview-name">{{file.name}}</span>
+                    </div>
+                    <div class="col-2 p-1">
+                        <i class="float-right material-icons" (click)="close.emit()">close</i>
+                    </div>
+                </div>
             </div>
             <div class="preview-content">
                 <audio *ngIf="file.content=='audio'" [src]="file.url" controls></audio>
@@ -10,6 +22,28 @@
                 <img *ngIf="file.content=='image'" [src]="file.url" />
                 <div *ngIf="file.content=='file'">No preview available</div>
             </div>
+            <mat-menu #menu="matMenu" [panelClass]="preview-menu">
+            <button mat-menu-item (click)="edit(file)"> 
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="copy(file)"> 
+                <mat-icon>Copy</mat-icon>
+                <span>Copy</span>
+            </button>
+            <button mat-menu-item (click)="download(file)" >
+                <mat-icon>download</mat-icon>
+                <span>Download</span>
+            </button>
+            <button mat-menu-item *ngIf="file.content=='image'" (click)="setChromaBackground(file)" >
+                <mat-icon>wallpaper</mat-icon>
+                <span>ChromaBackground</span>
+            </button>
+            <button mat-menu-item (click)="delete(file)" >
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+            </mat-menu>
         </div>
     </div>
 </div>

@@ -16,7 +16,7 @@
         </div>
         <div class="col-12 p-3 border border-light mt-1">
             <app-card class="d-inline-block m-2 file-card" *ngFor="let file of files">
-                <div class="row">
+                <div class="row" (click)="view(file)">
                     <div class="col-4">
                         <i style="font-size:60px;" class="material-icons">{{file.icon}}</i>
                     </div>
@@ -26,18 +26,9 @@
                         <div>{{file.date}}</div>
                     </div>
                 </div>
-                <div class="row text-center">
-                    <div class="col-12">
-                        <i class="material-icons m-1 text-dark" (click)="view(file)" title="Preview">preview</i>
-                        <i class="material-icons m-1 text-warning" (click)="copy(file)" title="Copy">file_copy</i>
-                        <i class="material-icons m-1 text-warning" (click)="edit(file)" title="Edit">edit</i>
-                        <i class="material-icons m-1 text-success" (click)="download(file)" title="Download">download</i>
-                        <i class="material-icons  m-1 text-danger" (click)="delete(file)" title="Delete">delete</i>
-                    </div>
-                </div>
             </app-card>
         </div>
     </div>
 </div>
 
-<app-preview [file]="preview" (close)="preview=null"></app-preview>
+<app-preview [file]="preview" (close)="preview=null" (refresh)="loadUserFiles()"></app-preview>

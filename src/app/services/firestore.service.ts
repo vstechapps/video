@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { User,UserFile } from '../models/models';
+import { UserData, User,UserFile } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,4 @@ export class FirestoreService {
   }
 }
 
-export class UserData extends User {
-}
+

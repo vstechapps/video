@@ -17,9 +17,16 @@
             display: inline-block;
             background:white;
             width:350px;
-            .preview-name{
+            .preview-header{
                 color:black;
-                font-size: 25px;
+                font-size: 15px;
+                .preview-name{
+                    max-width: 150px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    display: inline-block;
+                }
             }
             .preview-content{
                 margin-top:20px;
@@ -29,6 +36,10 @@
             }
         }
     }
+}
+
+.preview-menu{
+    background-color: cornsilk;
 }
 
 .material-icons{

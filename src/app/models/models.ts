@@ -18,6 +18,7 @@ export class User{
   created:string;
   updated:string;
   notifications:boolean;
+  chromaBackground?:string
 }
 
 export enum Role{
@@ -47,4 +48,8 @@ export class ImgCapture{
     this.blob=blob;
   }
   url?:SafeUrl;
+}
+
+export class UserData extends User {
+  
 }

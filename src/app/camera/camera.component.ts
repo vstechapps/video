@@ -85,16 +85,23 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
     this.chroma_context.fillStyle = "grey";
     this.chroma_context.fillRect(0, 0, this.chroma_canvas.width, this.chroma_canvas.height);
     this.chroma_image_data=this.chroma_context.getImageData(0, 0, this.sx, this.sy);
-    if(this.firestore.user.chromaBackground!=null){  
-      let image=new Image();
-      image.crossOrigin = "Anonymous";
-      image.src=this.firestore.user.chromaBackground;
-      image.onload=()=>{
-        this.chroma_context.drawImage(image,0,0, this.sx, this.sy);
-        this.chroma_image_data=this.chroma_context.getImageData(0, 0, this.sx, this.sy);
+  }
+
+  updateChromaImage(event){
+    let file:File=event.target.files[0];
+    console.log("Files to upload : ",file);
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    let a=this;
+    reader.onloadend = function (e) {
+      var myImage = new Image();
+      myImage.src = e.target.result.toString();
+      myImage.onload = function(ev) {
+        a.chroma_context.drawImage(myImage,0,0, a.sx, a.sy);
+        a.chroma_image_data=a.chroma_context.getImageData(0, 0, a.sx, a.sy);
       }
-      document.getElementById("extra-nodes").appendChild(image);
     }
+
   }
 
 
@@ -214,6 +221,21 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
       }
       setTimeout(this.drawCanvas.bind(this), 1000 / this.fps);
     }  
+  }
+
+  canvasClicked(e:MouseEvent){
+    var p = this.context.getImageData(e.clientX, e.clientY, 1, 1).data; 
+    console.log("Canvas clicked ",e.clientX,e.clientY,p);
+    var hex = "#" + ("000000" + this.rgbToHex(p[0], p[1], p[2])).slice(-6);
+    this.minColor.hex=hex;
+    this.maxColor.hex=hex;
+    this.updateColor();
+  }
+
+  rgbToHex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
   }
 
   updateColor(){

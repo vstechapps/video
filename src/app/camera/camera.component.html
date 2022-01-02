@@ -2,7 +2,7 @@
     <div class="col-12 p-0">
         <div class="stream-layout" [style.max-height]="layoutheight+'px'">
             <video #video *ngIf="streaming" [style.display]="showCanvas?'none':'block'" class="video" [height]="layoutheight" [srcObject]="videostream" autoplay></video>
-            <canvas #canvas [style.display]="showCanvas?'block':'none'" class="video" [style.height]="layoutheight+'px'" id="canvas"></canvas>
+            <canvas #canvas (click)="canvasClicked($event)" [style.display]="showCanvas?'block':'none'" class="video" [style.height]="layoutheight+'px'" id="canvas"></canvas>
         </div>
         <div class="options-layout">
             
@@ -58,6 +58,10 @@
             </mat-slide-toggle>
             <input label="minColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="minColor.hex"/>
             <input label="maxColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="maxColor.hex"/>
+            
+        </div>
+        <div *ngIf="showCanvas">
+            <input type="file" (change)="updateChromaImage($event)" accept="image/png, image/gif, image/jpeg"/>
         </div>
     </div>
 </div>

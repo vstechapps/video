@@ -56,9 +56,8 @@
                 [checked]="processCanvas">
                 {{processCanvas?"On":"Off"}}
             </mat-slide-toggle>
-            <input label="minColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="minColor.hex"/>
-            <input label="maxColor" class="mx-2" type="color" (change)="updateColor()" [(ngModel)]="maxColor.hex"/>
-            
+            <input label="screenColor" class="mx-2" type="color" (change)="updateScreenColor()" [(ngModel)]="screenColor.hex"/>
+            <span class="m-2 material-icons color-picker" (click)="colorPicker=true;settings=false;">colorize</span>
         </div>
         <div *ngIf="showCanvas">
             <input type="file" (change)="updateChromaImage($event)" accept="image/png, image/gif, image/jpeg"/>

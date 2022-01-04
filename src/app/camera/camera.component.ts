@@ -29,8 +29,8 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   fps:number=20;
   sx:number=300;
   sy:number=150;
-  minColor=new Color("#247722");
-  maxColor=new Color("#247722");
+  screenColor=new Color("#247722");
+  colorPicker:boolean=false;
   devicePixelRatio:number=1;
 
   @ViewChild('canvas')
@@ -163,12 +163,22 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
 
   capturePhoto(){
     if(this.streaming && this.imagecapture!=null){
-      this.imagecapture.takePhoto().then((blob)=>{
-        let img=new ImgCapture("Capture "+this.captures.length,blob);
-        img.url=this.sanitize(window.URL.createObjectURL(blob));
-        this.captures.push(img);
-        console.log("Capture Added ",this.captures);
-      }).catch(this.handleError);
+      if(this.showCanvas){
+        this.canvas.nativeElement.toBlob((blob)=>{
+          let img=new ImgCapture("Capture "+this.captures.length,blob);
+          img.url=this.sanitize(window.URL.createObjectURL(blob));
+          this.captures.push(img);
+          console.log("Capture Added ",this.captures);
+        });
+      }
+      else{
+        this.imagecapture.takePhoto().then((blob)=>{
+          let img=new ImgCapture("Capture "+this.captures.length,blob);
+          img.url=this.sanitize(window.URL.createObjectURL(blob));
+          this.captures.push(img);
+          console.log("Capture Added ",this.captures);
+        }).catch(this.handleError);
+      }
     }
   }
 
@@ -224,12 +234,19 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
   canvasClicked(e:MouseEvent){
-    var p = this.context.getImageData(e.clientX, e.clientY, 1, 1).data; 
-    console.log("Canvas clicked ",e.clientX,e.clientY,p);
+    var rect = this.canvas.nativeElement.getBoundingClientRect();
+    var x= Math.floor((e.clientX-rect.left)*(this.sx/window.innerWidth));
+    var y=Math.floor((e.clientY-rect.top)*(this.sy/(window.innerHeight-56)));
+    console.log(e.clientX,rect.left,this.sx,window.innerWidth,x);
+    var p = this.context.getImageData(x, y, 1, 1).data; 
     var hex = "#" + ("000000" + this.rgbToHex(p[0], p[1], p[2])).slice(-6);
-    this.minColor.hex=hex;
-    this.maxColor.hex=hex;
-    this.updateColor();
+    console.log("Canvas clicked ",x,y,p,hex);
+    if(this.colorPicker){
+      this.screenColor.hex=hex;
+      this.updateScreenColor();  
+      this.colorPicker=false;
+    }
+    
   }
 
   rgbToHex(r, g, b) {
@@ -238,21 +255,19 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
     return ((r << 16) | (g << 8) | b).toString(16);
   }
 
-  updateColor(){
-    this.minColor.update();
-    this.maxColor.update();
+  updateScreenColor(){
+    this.screenColor.update();
     
   }
 
   computeFrame(frame:ImageData){
+    let r1=this.screenColor.rgb.r-10,r2=this.screenColor.rgb.r+9;
+      let g1=this.screenColor.rgb.g-10,g2=this.screenColor.rgb.g+9;
+      let b1=this.screenColor.rgb.b-10,b2=this.screenColor.rgb.b+9;
     for (let i = 0; i < frame.data.length /4; i++) {
       let r = frame.data[i * 4 + 0];
       let g = frame.data[i * 4 + 1];
       let b = frame.data[i * 4 + 2];
-      let r1=Math.min(this.minColor.rgb.r,this.maxColor.rgb.r),r2=Math.max(this.minColor.rgb.r,this.maxColor.rgb.r);
-      let g1=Math.min(this.minColor.rgb.g,this.maxColor.rgb.g),g2=Math.max(this.minColor.rgb.g,this.maxColor.rgb.g);
-      let b1=Math.min(this.minColor.rgb.b,this.maxColor.rgb.b),b2=Math.max(this.minColor.rgb.b,this.maxColor.rgb.b);
-
       if (r > r1 && r <= r2 && g > g1 && g <= g2 && b > b1 && b <= b2){
         frame.data[i * 4 + 0] = this.chroma_image_data.data[i * 4 + 0];
         frame.data[i * 4 + 1] = this.chroma_image_data.data[i * 4 + 0];

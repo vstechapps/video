@@ -31,7 +31,9 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   sy:number=150;
   screenColor=new Color("#247722");
   colorPicker:boolean=false;
+  colorDepth:any={r:10,g:10,b:10};
   devicePixelRatio:number=1;
+
 
   @ViewChild('canvas')
   canvas: ElementRef<HTMLCanvasElement>;
@@ -261,9 +263,9 @@ export class CameraComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
   computeFrame(frame:ImageData){
-    let r1=this.screenColor.rgb.r-10,r2=this.screenColor.rgb.r+9;
-      let g1=this.screenColor.rgb.g-10,g2=this.screenColor.rgb.g+9;
-      let b1=this.screenColor.rgb.b-10,b2=this.screenColor.rgb.b+9;
+    let r1=this.screenColor.rgb.r-this.colorDepth.r,r2=this.screenColor.rgb.r+this.colorDepth.r;
+      let g1=this.screenColor.rgb.g-this.colorDepth.g,g2=this.screenColor.rgb.g+this.colorDepth.g;
+      let b1=this.screenColor.rgb.b-this.colorDepth.b,b2=this.screenColor.rgb.b+this.colorDepth.b;
     for (let i = 0; i < frame.data.length /4; i++) {
       let r = frame.data[i * 4 + 0];
       let g = frame.data[i * 4 + 1];
@@ -319,10 +321,12 @@ export class Color{
     this.hex=color;
     this.update();
   }
+
   update(){
     let t=this.hexToRgb(this.hex);
     this.rgb=t!=null?t:this.rgb;
   }
+
   hexToRgb(hex:string):RGB {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {

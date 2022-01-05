@@ -1,15 +1,8 @@
-# Base Template Project for Angular+Firebase
-## Includes
-* Angular
-* Firebse
-* Angular Material
-* Manifest for PWA
-* Service Worker for PWA
-* Google Login using Firebase Auth
-
-### Updates required for below after cloning/forking
-* firebase config in environment.ts
-* title in index.html
-* basehref in package.json
-* metadata in manifest.json
-* title in header component
+# Video Camera Mobile Web App
+## Functions
+* Access Device Camera (Front & Back)
+* Display the video stream on HTML CAnvas
+* Apply Green Screen Background to video stream
+* Take Snapshot and save image file to firebase storage
+* Library to view / edit / delete the saved files
+* Upload image/audio/video files to library

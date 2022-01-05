@@ -22,7 +22,7 @@
 </div>
 
 
-<div class="settings w-100 w-md-50" *ngIf="settings">
+<div class="settings w-100 w-md-50" [hidden]="!settings">
     <div class="settings-title">Camera Settings
         <i class="float-right material-icons" (click)="settings=false;">close</i>
     </div>
@@ -58,8 +58,11 @@
             </mat-slide-toggle>
             <input label="screenColor" class="mx-2" type="color" (change)="updateScreenColor()" [(ngModel)]="screenColor.hex"/>
             <span class="m-2 material-icons color-picker" (click)="colorPicker=true;settings=false;">colorize</span>
+            <input label="colorDepth" class="mx-2" style="width:50px" type="number" [(ngModel)]="colorDepth.r"/>
+            <input label="colorDepth" class="mx-2" style="width:50px" type="number" [(ngModel)]="colorDepth.g"/>
+            <input label="colorDepth" class="mx-2" style="width:50px" type="number" [(ngModel)]="colorDepth.b"/>
         </div>
-        <div *ngIf="showCanvas">
+        <div [hidden]="!showCanvas">
             <input type="file" (change)="updateChromaImage($event)" accept="image/png, image/gif, image/jpeg"/>
         </div>
     </div>
